@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>ocr.jadecoder</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>3DCFE25F-0397-4621-9A4C-F581010F9ED9</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F287C4-094C-4029-93E7-90228EDB11DB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>8F58BF32-7272-40EF-9CAA-10A7E6B9AFF6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5FD4A95E-C4F8-46A6-8FF6-BEC276C51E15</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F287C4-094C-4029-93E7-90228EDB11DB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8F58BF32-7272-40EF-9CAA-10A7E6B9AFF6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>jadecoder</string>
+	<key>description</key>
+	<string>Take a snapshot and use Baidu OCR API to recoginze</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>OCR</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>screencapture -i /tmp/ocr_snapshot.png
+
+echo -n /tmp/ocr_snapshot.png</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A7F287C4-094C-4029-93E7-90228EDB11DB</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>script</key>
+				<string>$token_url = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&amp;client_id=N7GWF63CRc2RM8iYHih6GBjZ&amp;client_secret=McqgCdBOprgOjdiysA7U18FTouX1iwDz";
+$arrContextOptions=["ssl" =&gt; ["verify_peer" =&gt; false, "verify_peer_name" =&gt; false]];
+
+$file_path = "{query}";
+
+$image = file_get_contents($file_path);
+$base64_img = base64_encode($image);
+
+$token_response = file_get_contents($token_url, false, stream_context_create($arrContextOptions));
+$token = json_decode($token_response, true)["access_token"];
+$ocr_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=".$token;
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL,$ocr_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["image" =&gt; $base64_img]));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$result = curl_exec($ch);
+
+curl_close ($ch);
+
+$words = json_decode($result, true)['words_result'];
+foreach ($words as $word) {
+	echo $word["words"]."\n";
+}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8F58BF32-7272-40EF-9CAA-10A7E6B9AFF6</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>5FD4A95E-C4F8-46A6-8FF6-BEC276C51E15</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>ocr</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Take Snapshot and Recognize</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>3DCFE25F-0397-4621-9A4C-F581010F9ED9</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>modified for gsmth00</string>
+	<key>uidata</key>
+	<dict>
+		<key>3DCFE25F-0397-4621-9A4C-F581010F9ED9</key>
+		<dict>
+			<key>xpos</key>
+			<integer>110</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>5FD4A95E-C4F8-46A6-8FF6-BEC276C51E15</key>
+		<dict>
+			<key>xpos</key>
+			<integer>680</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>8F58BF32-7272-40EF-9CAA-10A7E6B9AFF6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>A7F287C4-094C-4029-93E7-90228EDB11DB</key>
+		<dict>
+			<key>xpos</key>
+			<integer>320</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
