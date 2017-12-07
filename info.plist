@@ -33,6 +33,16 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>0D93798F-3A8F-4D30-B1C7-CC7C3914A956</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 		<key>A7F287C4-094C-4029-93E7-90228EDB11DB</key>
 		<array>
@@ -58,31 +68,6 @@
 	<string>OCR</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>63</integer>
-				<key>script</key>
-				<string>screencapture -i /tmp/ocr_snapshot.png
-
-echo -n /tmp/ocr_snapshot.png</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>A7F287C4-094C-4029-93E7-90228EDB11DB</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -170,11 +155,64 @@ foreach ($words as $word) {
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>screencapture -i /tmp/ocr_snapshot.png
+
+echo -n /tmp/ocr_snapshot.png</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A7F287C4-094C-4029-93E7-90228EDB11DB</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>OCR Complete!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>0D93798F-3A8F-4D30-B1C7-CC7C3914A956</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
-	<string>modified for gsmth00</string>
+	<string>Take a snapshot and call Baidu OCR API to recognize.</string>
 	<key>uidata</key>
 	<dict>
+		<key>0D93798F-3A8F-4D30-B1C7-CC7C3914A956</key>
+		<dict>
+			<key>xpos</key>
+			<integer>680</integer>
+			<key>ypos</key>
+			<integer>330</integer>
+		</dict>
 		<key>3DCFE25F-0397-4621-9A4C-F581010F9ED9</key>
 		<dict>
 			<key>xpos</key>
@@ -204,6 +242,8 @@ foreach ($words as $word) {
 			<integer>170</integer>
 		</dict>
 	</dict>
+	<key>version</key>
+	<string>0.2.0</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
